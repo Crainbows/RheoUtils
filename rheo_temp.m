@@ -15,8 +15,21 @@ else
                            'ListString',sheets);
 
 %     Linear Plot G' and G'' vs Temperature
-    fig = figure('Name',file,'NumberTitle','off');
+    fig = figure('Name',file,...
+        'NumberTitle','off',...
+        'SizeChangedFcn', @resizeui);
     fig.Color = 'w';
+        
+%     Create Dropdown UI element
+    popup = uicontrol('Style', 'popup',...
+       'String', {'Linear','Log'},...
+       'Position', [fig.Position(3)-110 fig.Position(4)-60 100 50],...
+       'Callback', @setscale);
+   
+%     Create push button UI element  
+    btn = uicontrol('Style', 'pushbutton', 'String', 'Print',...
+        'Position', [fig.Position(3)-170 fig.Position(4)-30 50 20],...
+        'Callback', @printimg);    
     
     linesty = {'-','--','-.',':'};
     
@@ -55,17 +68,7 @@ else
 %     Set Graph Labels
     xlabel('Temperature (\circC)');
     ylabel('G'',G''''(Pa)');
-    
-%     Create Dropdown UI element
-    popup = uicontrol('Style', 'popup',...
-       'String', {'Linear','Log'},...
-       'Position', [450 360 100 50],...
-       'Callback', @setscale);
-   
-%     Create push button UI element  
-    btn = uicontrol('Style', 'pushbutton', 'String', 'Print',...
-        'Position', [390 390 50 20],...
-        'Callback', @printimg);   
+
 
 end
 
@@ -111,6 +114,14 @@ function printimg(~,~) % Source and Event not used
         popup.Visible = 'on';
         btn.Visible = 'on';
     end
+end
+
+function resizeui(~,~)
+        fig = gcf;
+        btn = findobj('Style','push');
+        btn.Position = [fig.Position(3)-170 fig.Position(4)-30 50 20];
+        popup = findobj('Style','popup');
+        popup.Position = [fig.Position(3)-110 fig.Position(4)-60 100 50];
 end
 
 
