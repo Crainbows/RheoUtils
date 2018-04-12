@@ -1,7 +1,7 @@
-#RheoUtils
+# RheoUtils
 
-##Usage
-###rheo_temp
+## Usage
+### rheo_temp
 Run `rheo_temp`.
 
 This will promt for a Excel file. The usual format of these places the storage modulus (G') in column 1 the loss modulus (G'') in column 2 and the temperature on column 7.
