@@ -22,6 +22,10 @@ else
     
     hold on;
 
+%     Preallocate cell array
+    legindx = size(indx);
+    lgend = cell(1,legindx(2)*2);
+    
 %     Cycle through sheets and plot on same graph
     for k=1:length(indx)
         [num,txt,raw] = xlsread(fullfile(path,file),indx(k));
@@ -30,15 +34,17 @@ else
             'Color', 'r',...
             'LineStyle', linesty{k},...
             'LineWidth',2); % Storage Mod
-        
+        lgend{(k*2)-1} = strcat("G' ",sheets{indx(k)});
         plot(num(:,7),smooth(num(:,2)),...
             'Color', 'b',...
             'LineStyle', linesty{k},...
             'LineWidth',2); % Loss Mod
+        lgend{k*2} = strcat("G'' ",sheets{indx(k)});
     end
 
 %     Setting legend properties
-    legend('G'' Heating','G'''' Heating','G'' Cooling','G'''' Cooling');
+    legend(cellstr(lgend));
+%     legend('G'' Heating','G'''' Heating','G'' Cooling','G'''' Cooling');
     legend('boxoff');
 
 %     Set Axis properties
@@ -64,7 +70,7 @@ else
 end
 
 % Clear unused vars
-clearvars sheets tf txt num raw status k
+clearvars sheets tf txt num raw status k legindx linesty indx
 
 function setscale(source,~) % Event not used
     val = source.Value;
