@@ -14,9 +14,10 @@ else
     [indx,tf] = listdlg('PromptString','Select Sheets:',...
                            'ListString',sheets);
 
-%     Linear Plot G' and G'' vs Temperature
+%     Create figure, set title, set resize callback and hide until everything has rendered
     fig = figure('Name',file,...
         'NumberTitle','off',...
+        'Visible', 'off',...
         'SizeChangedFcn', @resizeui);
     fig.Color = 'w';
         
@@ -69,11 +70,12 @@ else
     xlabel('Temperature (\circC)');
     ylabel('G'',G''''(Pa)');
 
-
+%     Show Figure
+    fig.Visible = 'on';
 end
 
 % Clear unused vars
-clearvars sheets tf txt num raw status k legindx linesty indx
+%clearvars sheets tf txt num raw status k legindx linesty indx
 
 function setscale(source,~) % Event not used
     val = source.Value;
@@ -106,7 +108,7 @@ function printimg(~,~) % Source and Event not used
             case 2
                 print(fullfile(path,file), '-dpng','-r600');
             case 3
-                print(fullfile(path,file), '-demf','-r600');
+                print(fullfile(path,file), '-dmeta','-r600');
             case 4
                 print(fullfile(path,file), '-dsvg','-r600');
         end
